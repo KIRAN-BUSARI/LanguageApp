@@ -1,0 +1,21 @@
+import express from 'express';
+import cors from 'cors';
+import userRoutes from './routes/userRoutes.js';
+import translateRoutes from "./routes/translateRoutes.js";
+import cookieParser from 'cookie-parser';
+
+const app = express()
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+// console.log(process.env.FRONTEND_URL);
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+}))
+app.use(cookieParser())
+
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/translate', translateRoutes);
+
+export default app
