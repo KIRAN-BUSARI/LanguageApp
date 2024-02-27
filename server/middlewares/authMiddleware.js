@@ -13,7 +13,7 @@ const isLoggedIn = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decoded.userId);
+        // console.log(decoded.userId);`
         if (decoded.userId) {
             req.userId = decoded.userId;
             return next(); // Call next middleware
