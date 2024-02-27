@@ -37,13 +37,19 @@ const Signin = () => {
         }
 
         try {
-            const res = await axiosInstance.post("/users/signin", {
+            let res = axiosInstance.post("/users/signin", {
                 email: loginData.email,
                 password: loginData.password,
             })
             // console.log(res.data);
+            toast.promise(res, {
+                loading: "Logging in...",
+                success: (data) => data.data.message,
+                error: (err) => err.response.data.message
+            })
+            res = await res;
             if (res.data.success) {
-                toast.success(res.data.message);
+                // toast.success(res.data.message);
                 localStorage.setItem("token", res.data.token);
                 navigate("/");
                 location.reload()
@@ -60,17 +66,17 @@ const Signin = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-[80vh]">
+        <div className="flex items-center justify-center h-[88vh] from-black to-gray-900 bg-gradient-to-tr">
             <form
                 onSubmit={handleLogin}
-                className="flex flex-col justify-center gap-4 rounded-lg p-4 w-80 h-[26rem] shadow-[0_0_15px_black]"
+                className="flex flex-col justify-center gap-4 rounded-lg p-4 w-80 h-[26rem] bg-gray-300 shadow-[0_0_15px_black]"
             >
-                <h1 className="text-center text-2xl font-bold text-orange-400">
+                <h1 className="text-center text-2xl font-bold text-gray-900">
                     Login Page
                 </h1>
                 <div className="flex flex-col gap-1">
                     <label
-                        className="text-lg font-semibold text-orange-400"
+                        className="text-lg font-semibold text-gray-900"
                         htmlFor="email"
                     >
                         Email
@@ -81,7 +87,7 @@ const Signin = () => {
                         name="email"
                         id="email"
                         placeholder="Enter your email"
-                        className="bg-transparent px-2 py-1 border border-orange-500 text-black"
+                        className="bg-transparent px-2 py-1 border border-gray-900 text-black"
                         value={loginData.email}
                         onChange={handleUserInput}
                     />
@@ -89,7 +95,7 @@ const Signin = () => {
 
                 <div className="flex flex-col gap-1">
                     <label
-                        className="text-lg font-semibold text-orange-400"
+                        className="text-lg font-semibold text-gray-900"
                         htmlFor="password"
                     >
                         Password
@@ -101,7 +107,7 @@ const Signin = () => {
                             name="password"
                             id="password"
                             placeholder="Enter your password"
-                            className="bg-transparent px-2 py-1 max-w-full w-96 border border-orange-500 text-black"
+                            className="bg-transparent px-2 py-1 max-w-full w-96 border border-gray-900 text-black"
                             value={loginData.password}
                             onChange={handleUserInput}
                         />
@@ -120,13 +126,13 @@ const Signin = () => {
                     onClick={() =>
                         setLoginData({ email: "test@gmail.com", password: "Test@123" })
                     }
-                    className="text-center link text-orange-500 cursor-pointer"
+                    className="text-center link text-gray-900 cursor-pointer"
                 >
                     Guest Login
                 </div>
 
                 <button
-                    className="w-full bg-[#0095ff] text-white hover:border hover:border-[#0095ff] hover:bg-[#fff] hover:text-[#0095ff] transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"
+                    className="w-full bg-[#0095ff] hover:text-white rounded-sm py-2 font-semibold text-lg cursor-pointer"
                     type="submit"
                 >
                     Login
@@ -138,7 +144,7 @@ const Signin = () => {
                     </p>
                 </Link> */}
 
-                <p className="text-center ">
+                <p className="text-center">
                     {"Don't have an account ? "}
                     <Link
                         to={"/signup"}

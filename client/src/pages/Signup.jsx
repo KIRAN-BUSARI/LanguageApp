@@ -90,18 +90,18 @@ const Signup = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-[100vh]">
+        <div className="flex items-center justify-center h-[88vh] from-black to-gray-900 bg-gradient-to-tr">
             <form
                 onSubmit={createNewAccount}
-                className="flex flex-col justify-center gap-3 rounded-lg p-4 w-96 shadow-[0_0_10px_black]"
+                className="flex flex-col justify-center gap-3 rounded-lg p-4 w-96 shadow-[0_0_10px_black] bg-gray-300"
             >
-                <h1 className="text-center text-2xl font-bold text-[#0095ff]">
+                <h1 className="text-center text-2xl font-bold text-gray-900">
                     Registration Page
                 </h1>
 
                 {/* input for name */}
                 <div className="flex flex-col gap-1">
-                    <label className="font-semibold text-[#0095ff]" htmlFor="username">
+                    <label className="font-semibold text-gray-900" htmlFor="username">
                         Name
                     </label>
                     <input
@@ -110,7 +110,7 @@ const Signup = () => {
                         name="username"
                         id="username"
                         placeholder="Enter your name"
-                        className="bg-transparent px-2 py-1 border text-black"
+                        className="bg-transparent px-2 py-1 border text-black rounded-md"
                         value={signupData.username}
                         onChange={handleUserInput}
                     />
@@ -118,7 +118,7 @@ const Signup = () => {
 
                 {/* input for email */}
                 <div className="flex flex-col gap-1">
-                    <label className="font-semibold text-[#0095ff]" htmlFor="email">
+                    <label className="font-semibold text-gray-900" htmlFor="email">
                         Email
                     </label>
                     <input
@@ -127,7 +127,7 @@ const Signup = () => {
                         name="email"
                         id="email"
                         placeholder="Enter your email"
-                        className="bg-transparent px-2 py-1 border text-black"
+                        className="bg-transparent px-2 py-1 border text-black rounded-md"
                         value={signupData.email}
                         onChange={handleUserInput}
                     />
@@ -135,7 +135,7 @@ const Signup = () => {
 
                 {/* input for password */}
                 <div className="flex flex-col gap-1">
-                    <label className="font-semibold text-[#0095ff]" htmlFor="password">
+                    <label className="font-semibold text-gray-900" htmlFor="password">
                         Password
                     </label>
                     <div className="flex items-center">
@@ -145,7 +145,7 @@ const Signup = () => {
                             name="password"
                             id="password"
                             placeholder="Enter your password"
-                            className="bg-transparent px-2 py-1 max-w-full w-96 border text-black"
+                            className="bg-transparent px-2 py-1 max-w-full w-96 border text-black rounded-md"
                             value={signupData.password}
                             onChange={handleUserInput}
                         />
@@ -160,7 +160,7 @@ const Signup = () => {
                 </div>
                 {/* registration button */}
                 <button
-                    className="w-full bg-[#0095ff] hover:text-white border-2 hover:border-[#0095ff] transition-all ease-in-out duration-300 rounded-md py-2 font-semibold text-lg cursor-pointer"
+                    className="w-full bg-[#0095ff] hover:text-white border-2 rounded-md py-2 font-semibold text-lg cursor-pointer"
                     type="submit"
                 >
                     Create Account
@@ -168,7 +168,7 @@ const Signup = () => {
 
                 <p className="text-center">
                     Already have an account ?{" "}
-                    <Link to={"/login"} className="link text-[#0095ff] cursor-pointer hover:underline">
+                    <Link to={"/signin"} className="link text-[#0095ff] cursor-pointer hover:underline">
                         Login
                     </Link>
                 </p>
