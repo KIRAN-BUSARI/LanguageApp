@@ -5,6 +5,7 @@ import Signin from "./pages/Signin";
 import PageNotFound from "./pages/PageNotFound";
 import Layout from "./components/Layout/Layout";
 import Translate from "./pages/Translate";
+import AdminPage from "./pages/AdminHomePage";
 function App() {
   return (
     <>
@@ -14,6 +15,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/translate" element={<Translate />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>

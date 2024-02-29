@@ -5,7 +5,8 @@ import bcrypt from "bcrypt";
 
 const cookieOptions = {
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: true
 }
 
 const signup = async (req, res) => {
@@ -29,12 +30,13 @@ const signup = async (req, res) => {
         const [userTables] = await connection.query("SHOW TABLES LIKE 'USERS'");
         if (userTables.length === 0) {
             await connection.query(`
-                CREATE TABLE USERS (
-                    ID INT PRIMARY KEY AUTO_INCREMENT,
-                    USERNAME VARCHAR(20),
-                    EMAIL VARCHAR(20) UNIQUE,
-                    PASSWORD VARCHAR(20)
-                );
+            CREATE TABLE USERS (
+                ID INT PRIMARY KEY AUTO_INCREMENT,
+                USERNAME VARCHAR(20),
+                EMAIL VARCHAR(20) UNIQUE,
+                PASSWORD VARCHAR(200),
+                ROLE ENUM('user', 'admin') DEFAULT 'user'
+            );            
             `);
         }
 
@@ -76,9 +78,7 @@ const signup = async (req, res) => {
                 userId,
             }, process.env.JWT_SECRET)
 
-            const newUser = (`SELECT USERNAME,EMAIL FROM USERS
-        WHERE ID=?
-        `)
+            const newUser = (`SELECT USERNAME,EMAIL,ROLE FROM USERS WHERE ID=?`)
 
             const newUserValues = userId
             const [newUserQuery] = await connection.query(newUser, newUserValues);
@@ -122,7 +122,7 @@ const signin = async (req, res, next) => {
     }
 
     try {
-        const userExists = (`SELECT EMAIL,PASSWORD,ID FROM USERS
+        const userExists = (`SELECT EMAIL,PASSWORD,ID,ROLE FROM USERS
         WHERE EMAIL=?
         `)
 
@@ -152,18 +152,23 @@ const signin = async (req, res, next) => {
 
         const token = jwt.sign({
             userId: userExistsQuery[0].ID,
+            role: userExistsQuery[0].ROLE
         }, process.env.JWT_SECRET)
 
-        res.cookie("token", token, { httpOnly: true })
 
-        res.status(200).json({
-            success: true,
-            message: "User logged in successfully",
-            userId: userExistsQuery[0].ID,
-            token: token,
-            userExistsQuery
-        })
-        return
+
+        return res
+            .status(200)
+            .cookie("token", token, cookieOptions)
+            .json({
+                success: true,
+                message: "User logged in successfully",
+                userId: userExistsQuery[0].ID,
+                role: userExistsQuery[0].ROLE,
+                token: token,
+                userExistsQuery
+            })
+        // return
 
     } catch (error) {
         return res.status(400).json({
@@ -179,7 +184,7 @@ const getUser = async (req, res) => {
     // console.log(userId);
     const connection = await connectToDb()
     try {
-        const [user] = await connection.query(`SELECT USERNAME , EMAIL FROM USERS WHERE ID=${userId}`)
+        const [user] = await connection.query(`SELECT USERNAME , EMAIL ,ROLE FROM USERS WHERE ID=${userId}`)
 
         // console.log(user[0].USERNAME);
 
@@ -202,10 +207,49 @@ const getUser = async (req, res) => {
     }
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const userId = req.userId;
+        console.log(userId);
+        const connection = await connectToDb();
+        try {
+            // Check if the user is an admin
+            const [user] = await connection.query('SELECT ROLE FROM USERS WHERE ID = ?', [userId]);
+            if (!user || user.length === 0 || user[0].ROLE !== 'admin') {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Unauthorized to access this resource'
+                });
+            }
+            // Retrieve all users except the admin
+            const [users] = await connection.query('SELECT ID, USERNAME, EMAIL, ROLE FROM USERS WHERE ROLE != ?', ['admin']);
+            // console.log(users);
+            return res.status(200).json({
+                success: true,
+                users
+            });
+        } catch (error) {
+            return res.status(400).json({
+                success: false,
+                message: error.message
+            });
+        } finally {
+            // Close the database connection
+            await connection.end();
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        });
+    }
+}
+
+
 const logout = async (req, res) => {
     try {
         res.clearCookie("token")
-
         res.status(200).json({
             success: true,
             message: "Logout successfull"
@@ -222,7 +266,8 @@ export {
     signup,
     signin,
     getUser,
-    logout
+    logout,
+    getAllUsers
 }
 
 // const signupSchema = zod.object({

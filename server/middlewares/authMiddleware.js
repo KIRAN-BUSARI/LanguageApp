@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const isLoggedIn = (req, res, next) => {
     // const token = req.cookies.token || null;
     const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "") || null;
-
+    // console.log("TOKEN", token);
     if (!token) {
         return res.status(400).json({
             success: false,
@@ -13,7 +13,7 @@ const isLoggedIn = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        // console.log(decoded.userId);`
+        // console.log(decoded.userId);
         if (decoded.userId) {
             req.userId = decoded.userId;
             return next(); // Call next middleware
@@ -35,7 +35,9 @@ const isLoggedIn = (req, res, next) => {
 
 const adminMiddleware = (...roles) =>
     async (req, res, next) => {
-        const token = req.cookies.token;
+        // const token = req.cookies.token;
+        const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "") || null;
+        // console.log(token);
 
         if (!token) {
             res.status(400).json({
@@ -46,7 +48,7 @@ const adminMiddleware = (...roles) =>
 
         try {
             const decodedRole = jwt.verify(token, process.env.JWT_SECRET);
-
+            // console.log(decodedRole.role);
             if (!decodedRole.role) {
                 res.status(400).json({
                     success: false,
@@ -57,7 +59,9 @@ const adminMiddleware = (...roles) =>
             req.user = req.user || {};
 
             req.user.role = decodedRole.role;
-            console.log(req.user.role);
+            // console.log(req.user.role);
+            // console.log(roles);
+
 
             if (!roles.includes(req.user.role)) {
                 res.status(403).json({

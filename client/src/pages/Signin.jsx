@@ -48,11 +48,18 @@ const Signin = () => {
                 error: (err) => err.response.data.message
             })
             res = await res;
+            console.log(res.data.role);
             if (res.data.success) {
                 // toast.success(res.data.message);
                 localStorage.setItem("token", res.data.token);
-                navigate("/");
-                location.reload()
+                localStorage.setItem('role', res.data.role)
+                if (res.data.role === "admin") {
+                    navigate("/admin");
+                    location.reload()
+                } else {
+                    navigate("/");
+                    location.reload()
+                }
             }
         } catch (error) {
             console.log(error);
