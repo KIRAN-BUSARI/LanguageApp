@@ -46,6 +46,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
     const [username, setUsername] = useState("");
+    const [role, setRole] = useState("")
     const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
 
     useEffect(() => {
@@ -60,6 +61,7 @@ const Header = () => {
             })
                 .then(res => {
                     setUsername(res.data.user.USERNAME);
+                    setRole(res.data.user.ROLE)
                     setIsLoggedIn(true); // Set login status to true
                 })
                 .catch(error => {
@@ -93,6 +95,7 @@ const Header = () => {
                         <div className="mr-2 uppercase flex items-center text-gray-200 text-xl font-bold">
                             {username}
                         </div>
+                        <div className="text-gray-200 flex items-center">{role}</div>
                         <div className="text-white flex items-center px-2 py-3 cursor-pointer" onClick={handleLogout}>Logout</div>
                     </>
                 ) : (
