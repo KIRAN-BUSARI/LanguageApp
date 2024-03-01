@@ -262,12 +262,38 @@ const logout = async (req, res) => {
     }
 }
 
+const getUserTranslations = async (req, res) => {
+    const userId = req.params.userId;
+    console.log(userId);
+    try {
+        // Connect to the database
+        const connection = await connectToDb();
+
+        // Query the database for translations of the specified user
+        const [rows] = await connection.query('SELECT id,original_text,translated_text FROM translations WHERE user_id = ?', [userId]);
+        console.log(rows);
+        // If no translations are found, return a 404 response
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'No translations found for this user' });
+        }
+
+        // If translations are found, return them in the response
+        res.status(200).json({ translations: rows });
+    } catch (error) {
+        // If an error occurs, log it and return a 500 response
+        console.error('Error fetching translations:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
 export {
     signup,
     signin,
     getUser,
     logout,
-    getAllUsers
+    getAllUsers,
+    getUserTranslations
 }
 
 // const signupSchema = zod.object({
