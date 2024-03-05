@@ -66,7 +66,7 @@ const translateController = async (req, res) => {
         const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
 
         // Verify and decode the token
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET || 'LanguageTranslatorApp');
 
         const { text, source, target } = req.body;
         const userId = decodedToken.userId;

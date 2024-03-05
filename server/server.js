@@ -8,6 +8,6 @@ app.get('/', (_req, res) => {
 })
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port http://localhost:${process.env.PORT}`);
+    console.log(`Server is running on port http://localhost:${process.env.PORT || 8080}`);
     connectToDb()
 });

@@ -12,7 +12,7 @@ const isLoggedIn = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'LanguageTranslatorApp');
         // console.log(decoded.userId);
         if (decoded.userId) {
             req.userId = decoded.userId;
@@ -47,7 +47,7 @@ const adminMiddleware = (...roles) =>
         }
 
         try {
-            const decodedRole = jwt.verify(token, process.env.JWT_SECRET);
+            const decodedRole = jwt.verify(token, process.env.JWT_SECRET || 'LanguageTranslatorApp');
             // console.log(decodedRole.role);
             if (!decodedRole.role) {
                 res.status(400).json({

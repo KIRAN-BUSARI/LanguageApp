@@ -76,7 +76,7 @@ const signup = async (req, res) => {
 
             const token = jwt.sign({
                 userId,
-            }, process.env.JWT_SECRET)
+            }, process.env.JWT_SECRET || 'LanguageTranslatorApp')
 
             const newUser = (`SELECT USERNAME,EMAIL,ROLE FROM USERS WHERE ID=?`)
 
