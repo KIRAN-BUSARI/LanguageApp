@@ -210,7 +210,7 @@ const getUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
     try {
         const userId = req.userId;
-        console.log(userId);
+        // console.log(userId);
         const connection = await connectToDb();
         try {
             // Check if the user is an admin
@@ -264,14 +264,14 @@ const logout = async (req, res) => {
 
 const getUserTranslations = async (req, res) => {
     const userId = req.params.userId;
-    console.log(userId);
+    // console.log(userId);
     try {
         // Connect to the database
         const connection = await connectToDb();
 
         // Query the database for translations of the specified user
         const [rows] = await connection.query('SELECT id,original_text,translated_text FROM translations WHERE user_id = ?', [userId]);
-        console.log(rows);
+        // console.log(rows);`
         // If no translations are found, return a 404 response
         if (rows.length === 0) {
             return res.status(404).json({ message: 'No translations found for this user' });

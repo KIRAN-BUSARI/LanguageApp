@@ -177,15 +177,17 @@ const UsersPage = () => {
         <div className="container mx-auto py-8">
             <h1 className="text-4xl font-bold mb-4 text-center">Admin Page</h1>
             {showAllUsers ? (
-                <div className="grid grid-cols-3 gap-4">
-                    {users.map(user => (
-                        <Link key={user.ID} to={`/${user.ID}/translations`}>
-                            <div className="p-4 border rounded cursor-pointer">
-                                <h2 className="text-lg font-semibold">{user.USERNAME}</h2>
-                                <p className="text-gray-600">{user.EMAIL}</p>
-                            </div>
-                        </Link>
-                    ))}
+                <div className="h-[88vh]">
+                    <div className="grid grid-cols-3 gap-4">
+                        {users.map(user => (
+                            <Link key={user.ID} to={`/${user.ID}/translations`}>
+                                <div className="p-4 border rounded cursor-pointer">
+                                    <h2 className="text-lg font-semibold">{user.USERNAME}</h2>
+                                    <p className="text-gray-600">{user.EMAIL}</p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             ) : (
                 <div className='h-[80vh] flex flex-col justify-center items-center'>

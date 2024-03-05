@@ -87,6 +87,10 @@ function Translate() {
                 text: text,
                 source: sourceLanguage,
                 target: targetLanguage
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
             });
             toast.promise(res, {
                 loading: 'Translating...',
@@ -94,6 +98,8 @@ function Translate() {
                 error: (data) => data.data.error
             })
             res = await res
+            console.log(res.data);
+
             setTranslatedText(res.data.translatedText);
             setError('');
         } catch (error) {
