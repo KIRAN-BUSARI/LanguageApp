@@ -5,6 +5,12 @@ import translateRoutes from "./routes/translateRoutes.js";
 import cookieParser from 'cookie-parser';
 
 const app = express()
+app.get("/", (_req, res) => {
+    res.json({
+        success: true,
+        message: "Server is up and running"
+    })
+})
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
