@@ -34,6 +34,7 @@ const signup = async (req, res) => {
                 ID INT PRIMARY KEY AUTO_INCREMENT,
                 USERNAME VARCHAR(20),
                 EMAIL VARCHAR(20) UNIQUE,
+                ROLE ENUM('user','admin') NOT NULL DEFAULT 'user',
                 PASSWORD VARCHAR(200),
                 ROLE ENUM('user', 'admin') DEFAULT 'user'
             );            
