@@ -84,6 +84,22 @@ const translateController = async (req, res) => {
             const translatedText = result.translation;
 
             try {
+                const [translateTable] = await connection.query("SHOW TABLES LIKE 'TRANSLATIONS'");
+                if (translateTable.length === 0) {
+                    await connection.query(`
+                        CREATE TABLE translations (
+                            id INT PRIMARY KEY AUTO_INCREMENT,
+                            original_text TEXT NOT NULL,
+                            translated_text TEXT NOT NULL,
+                            source_language VARCHAR(10) NOT NULL,
+                            target_language VARCHAR(10) NOT NULL,
+                            user_id INT NOT NULL,
+                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            FOREIGN KEY (user_id) REFERENCES users(id)
+                        );
+                    `);
+                }
+
                 // Save translation to database with user ID
                 await connection.query(
                     'INSERT INTO translations (original_text, translated_text, source_language, target_language, user_id) VALUES (?, ?, ?, ?, ?)',
