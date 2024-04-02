@@ -92,7 +92,7 @@ const Header = () => {
                         <div className="flex flex-col justify-center h-full mr-2 text-xl text-white">
                             Hello
                         </div>
-                        <div className="mr-2 uppercase flex items-center text-gray-200 text-xl font-bold">
+                        <div className="mr-2 uppercase flex items-center text-xl font-bold text-[#0095ff]">
                             {username}
                         </div>
                         <div className="text-gray-200 flex items-center">{role}</div>
