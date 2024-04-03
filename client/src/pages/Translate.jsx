@@ -162,7 +162,7 @@ function Translate() {
                 </div>
                 <button onClick={handleTranslate} className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Translate</button>
                 {translatedText && (
-                    <div className="mt-4">
+                    <div className="mt-4 text-white">
                         <h2 className="text-lg font-semibold mb-2">Translated Text</h2>
                         <p>{translatedText}</p>
                     </div>
