@@ -1,13 +1,14 @@
 # LanguageApp
 
-cd to server folder
-run npm install
-create a .env file in a root folder
-copy .env.example to .env
-replace your password in DB_PASSWORD in .env
-and also make sure u have a LanguageApp in your DB
-run npm run start
+1. cd to server folder
+2. npm install
+3. create a .env file in a root folder
+4. copy .env.example to .env
+5. replace your password in DB_PASSWORD in .env
+6. change the db_name, db_password
+7. npm run start
 
 And then change to client folder
-run npm install
-run npm run dev
+1. cd client
+2. npm install
+3. npm run dev
