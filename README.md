@@ -13,3 +13,5 @@ And then change to client folder
 1. cd client
 2. npm install
 3. npm run dev
+
+# Now go to https://localhost:5173 to see the amazing website
